@@ -1,6 +1,7 @@
 -- performance.sql
--- Retrieve all bookings with user, listing, and payment details
+-- Analyze query performance for bookings with joins
 
+EXPLAIN
 SELECT 
     b.booking_id,
     b.start_date,
@@ -11,7 +12,6 @@ SELECT
     u.first_name,
     u.last_name,
     u.email,
-    u.phone_number,
     l.listing_id,
     l.title AS property_title,
     l.location AS property_location,
@@ -22,4 +22,6 @@ INNER JOIN users u
     ON b.user_id = u.user_id
 INNER JOIN listings l 
     ON b.listing_id = l.listing_id
+WHERE b.status = 'confirmed'
+  AND b.start_date >= '2025-01-01'
 ORDER BY b.created_at DESC;
